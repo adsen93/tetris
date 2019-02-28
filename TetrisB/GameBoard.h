@@ -15,6 +15,7 @@ private:
 	point p2;
 	point p3;
 	point p4;
+	bool gameOver = false;
 public:
 	Block factory = Block();
 	 int **field;
@@ -23,4 +24,5 @@ public:
 	 void receivePiece(char);
 	 void update();
 	 bool collisionCheck(char, int);
+	 bool getGameOver();
 };

@@ -264,8 +264,13 @@ int main()
 	board.factory.mixPieces();
 	board.factory.spawnPiece();
 	//board.showField();
-	//board.receivePiece(board.factory.name);
-	board.receivePiece('i');
+	board.receivePiece(board.factory.name);
+	//board.factory.name = 'j';
+	//cout << board.factory.name;
+	//cout << endl;
+//	cout << board.factory.currentRotation;
+//	cout << endl;
+//	board.receivePiece('j');
 	cout << endl;
 	board.showField();
 	/*
@@ -320,17 +325,14 @@ int main()
 	*/
 
 
-	for (int i = 0; i < width; i++) {
-	//	board.field[9][i] = 1;
-		//board.field[11][i] = 1;
-	}
+	
 	double startTime = GetTickCount();
 	
-	while (true)
+	while (!(board.getGameOver()))
 	{
 		double currentTime = GetTickCount() - startTime;
 
-		if (currentTime >= 1500) //1 and a half seconds.
+		if (currentTime >= 1000) //1 and a half seconds.
 		{
 			board.update();
 			board.showField();
@@ -344,7 +346,7 @@ int main()
 		
 	}
 	
-
+	
 
 	/*
 	piece.mixPieces();
