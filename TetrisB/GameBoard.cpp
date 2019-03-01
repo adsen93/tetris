@@ -43,12 +43,16 @@ void GameBoard::receivePiece(char name) {
 		field[2][4] = 1;
 		field[2][5] = 1;
 		field[2][6] = 1;
+
 		p1.x = 2;
 		p1.y = 3;
+
 		p2.x = 2;
 		p2.y = 4;
+
 		p3.x = 2;
 		p3.y = 5;
+
 		p4.x = 2;
 		p4.y = 6;
 		break;
@@ -59,12 +63,16 @@ void GameBoard::receivePiece(char name) {
 		field[2][4] = 1;
 		field[2][5] = 1;
 		field[1][3] = 1;
+
 		p1.x = 2;
 		p1.y = 3;
+
 		p2.x = 2;
 		p2.y = 4;
+
 		p3.x = 2;
 		p3.y = 5;
+
 		p4.x = 1;
 		p4.y = 3;
 		break;
@@ -75,12 +83,16 @@ void GameBoard::receivePiece(char name) {
 		field[2][4] = 1;
 		field[2][5] = 1;
 		field[1][5] = 1;
+
 		p1.x = 2;
 		p1.y = 3;
+
 		p2.x = 2;
 		p2.y = 4;
+
 		p3.x = 2;
 		p3.y = 5;
+
 		p4.x = 1;
 		p4.y = 5;
 		break;
@@ -91,12 +103,16 @@ void GameBoard::receivePiece(char name) {
 		field[1][4] = 1;
 		field[2][5] = 1;
 		field[1][5] = 1;
+
 		p1.x = 2;
 		p1.y = 4;
+
 		p2.x = 1;
 		p2.y = 4;
+
 		p3.x = 2;
 		p3.y = 5;
+
 		p4.x = 1;
 		p4.y = 5;
 		break;
@@ -106,12 +122,16 @@ void GameBoard::receivePiece(char name) {
 		field[2][4] = 1;
 		field[3][4] = 1;
 		field[3][3] = 1;
+
 		p1.x = 2;
 		p1.y = 5;
+
 		p2.x = 2;
 		p2.y = 4;
+
 		p3.x = 3;
 		p3.y = 4;
+
 		p4.x = 3;
 		p4.y = 3;
 		break;
@@ -121,12 +141,16 @@ void GameBoard::receivePiece(char name) {
 		field[2][4] = 1;
 		field[2][5] = 1;
 		field[1][4] = 1;
+
 		p1.x = 2;
 		p1.y = 3;
+
 		p2.x = 2;
 		p2.y = 4;
+
 		p3.x = 2;
 		p3.y = 5;
+
 		p4.x = 1;
 		p4.y = 4;
 		break;
@@ -136,12 +160,16 @@ void GameBoard::receivePiece(char name) {
 		field[2][4] = 1;
 		field[3][4] = 1;
 		field[3][5] = 1;
+
 		p1.x = 2;
 		p1.y = 3;
+
 		p2.x = 2;
 		p2.y = 4;
+
 		p3.x = 3;
 		p3.y = 4;
+
 		p4.x = 3;
 		p4.y = 5;
 		break;
@@ -162,6 +190,18 @@ bool GameBoard::collisionCheck(char name, int rotation) {
 			//cout << field[p1.x+1][p1.y]; cout << endl;
 			//cout << (field[p1.x + 1][p1.y] == 1 || field[p2.x + 1][p2.y] == 1 || field[p3.x + 1][p3.y] == 1 || field[p4.x + 1][p4.y] == 1); cout << endl;
 			if (field[p1.x + 1][p1.y] == 1 || field[p2.x + 1][p2.y] == 1 || field[p3.x + 1][p3.y] == 1 || field[p4.x + 1][p4.y] == 1)
+				return true;
+			else return false;
+		}
+
+		else if (rotation == 1){
+			if (field[p3.x + 3][p3.y] == 1)
+				return true;
+			else return false;
+		}
+		
+		else if (rotation == 2) {
+			if (field[p3.x + 3][p3.y] == 1)
 				return true;
 			else return false;
 		}
@@ -222,6 +262,233 @@ bool GameBoard::collisionCheck(char name, int rotation) {
 	}
 	return false;
 }
+
+void GameBoard::shiftPoints(char name, int rotation) {
+	field[p1.x][p1.y] = 0;
+	field[p2.x][p2.y] = 0;
+	field[p3.x][p3.y] = 0;
+	field[p4.x][p4.y] = 0;
+
+
+	switch (name) {
+	case 'i': { 
+		if (rotation == 0) {
+			p1.x = p1.x - 1;
+			p1.y = p1.y + 2;
+
+			p2.x = p2.x;
+			p2.y = p2.y + 1;
+
+			p3.x = p3.x + 1;
+			p3.y = p3.y;
+
+			p4.x = p4.x + 2;
+			p4.y = p4.y - 1;
+		  }
+		else if (rotation == 1) {
+			p1.x = p1.x + 2;
+			p1.y = p1.y - 2;
+
+			p2.x = p2.x + 1;
+			p2.y = p2.y - 1;
+
+			p3.x = p3.x;
+			p3.y = p3.y;
+
+			p4.x = p4.x - 1;
+			p4.y = p4.y + 1;
+		}
+
+		else if (rotation == 2) {
+			p1.x = p1.x - 2;
+			p1.y = p1.y + 1;
+
+			p2.x = p2.x - 1;
+			p2.y = p2.y;
+
+			p3.x = p3.x;
+			p3.y = p3.y - 1;
+
+			p4.x = p4.x + 1;
+			p4.y = p4.y - 2;
+		}
+
+		else if (rotation == 3) {
+			p1.x = p1.x + 1;
+			p1.y = p1.y - 1;
+
+			p2.x = p2.x;
+			p2.y = p2.y;
+
+			p3.x = p3.x - 1;
+			p3.y = p3.y + 1;
+
+			p4.x = p4.x - 2;
+			p4.y = p4.y + 2;
+		}
+		break;
+	}
+
+	case 'j': { 
+			  break;
+	}
+
+	case 'l': {
+			  break;
+	}
+
+	case 'o': {
+		break;
+	}
+
+	case 's': {
+			  break;
+	}
+	case 't': { 
+			  break;
+	}
+
+	case 'z': {
+			  break;
+	}
+
+	}
+	
+
+	field[p1.x][p1.y] = 1;
+	field[p2.x][p2.y] = 1;
+	field[p3.x][p3.y] = 1;
+	field[p4.x][p4.y] = 1;
+}
+
+void GameBoard::rotateBlock(char name, int rotation) {
+	switch (name) {
+	case 'i': {
+		 if (rotation == 0) {
+			if (field[p3.x + 3][p3.y] == 1)
+				return;
+			else {
+
+				field[p1.x][p1.y] = 0;
+				field[p2.x][p2.y] = 0;
+				field[p3.x][p3.y] = 0;
+				field[p4.x][p4.y] = 0;
+
+				p1.x = p1.x - 1;
+				p1.y = p1.y + 2;
+
+				p2.x = p2.x;
+				p2.y = p2.y + 1;
+
+				p3.x = p3.x + 1;
+				p3.y = p3.y;
+
+				p4.x = p4.x + 2;
+				p4.y = p4.y - 1;
+
+				field[p1.x][p1.y] = 1;
+				field[p2.x][p2.y] = 1;
+				field[p3.x][p3.y] = 1;
+				field[p4.x][p4.y] = 1;
+				
+				factory.rotate();
+				return;
+			};
+		}
+
+		else if (rotation == 1) {
+			 if (field[p1.x + 3	][p1.y - 2] == 1 || field[p2.x + 2][p2.y - 1] == 1 /*|| field[p3.x + 1][p3.y] == 1*/ || field[p4.x - 1][p4.y + 1] == 1)
+				return;
+			 else {
+				 shiftPoints(name, rotation);
+				 factory.rotate();
+				 return;
+			 }
+		}
+
+		else if (rotation == 2) {
+			 if (field[p4.x + 2][p4.y - 2] == 1)
+				 return;
+			 else {
+				 shiftPoints(name, rotation);
+				 factory.rotate();
+			 }
+		 }
+
+		else if (rotation == 3) {
+			 if (field[p1.x + 2][p1.y - 1] == 1 /*|| field[p2.x + 2][p2.y - 1] == 1 */|| field[p3.x][p3.y + 1] == 1 || field[p4.x - 1][p4.y + 2] == 1)
+				 return;
+
+			 else {
+				 shiftPoints(name, rotation);
+				 factory.rotate();
+			 }
+		 }
+
+		break;
+	}
+
+	case 'j': {
+		if (rotation == 0) {
+			if (field[p1.x + 1][p1.y] == 1 || field[p2.x + 1][p2.y] == 1 || field[p3.x + 1][p3.y] == 1)
+				return;
+			else return ;
+		}
+		break;
+	}
+
+	case 'l': {
+		if (rotation == 0) {
+			if (field[p1.x + 1][p1.y] == 1 || field[p2.x + 1][p2.y] == 1 || field[p3.x + 1][p3.y] == 1)
+				return;
+			else return;
+		}
+		break;
+	}
+
+	case 'o': {
+		//if (rotation == 0) {
+		if (field[p1.x + 1][p1.y] == 1 || field[p3.x + 1][p3.y] == 1)
+			return;
+		else return;
+		//}
+		break;
+	}
+	case 's': {
+		if (rotation == 0) {
+			if (field[p1.x + 1][p1.y] == 1 || field[p3.x + 1][p3.y] == 1 || field[p4.x + 1][p4.y] == 1)
+				return;
+			else return;
+		}
+		break;
+	}
+	case 't': {
+		if (rotation == 0) {
+			if (field[p1.x + 1][p1.y] == 1 || field[p2.x + 1][p2.y] == 1 || field[p3.x + 1][p3.y] == 1)
+				return;
+			else return;
+		}
+		break;
+	}
+	case 'z': {
+		if (rotation == 0) {
+			if (field[p3.x + 1][p3.y] == 1 || field[p4.x + 1][p4.y] == 1 || field[p1.x + 1][p1.y] == 1)
+				return;
+			else return;
+		}
+		break;
+	}
+	}
+	//return;
+}
+/*
+void GameBoard::rotateBlock() {
+	if (rotationCheck(factory.name, factory.currentRotation)) 
+		factory.rotate();
+	
+		
+}
+*/
 /*
 void GameBoard::update() {
 	bool done = false;
@@ -288,24 +555,18 @@ void GameBoard::update() {
 	*/
 
 void GameBoard::update() {
-	if (( p2.x == 2 || p3.x == 2 ) && (/*field[p1.x + 1][p1.y] == 1 ||*/ field[p2.x + 1][p2.y] == 1 || field[p3.x + 1][p3.y] == 1 /*|| field[p4.x + 1][p4.y] == 1*/) ) {
-		cout << "game over";
-		cout << endl;
-		gameOver = true;
-		return;
-	}
-
+	
 	if (p1.x == height - 1 || p2.x == height - 1 || p3.x == height - 1 || p4.x == height - 1) {
-		factory.spawnPiece();
-		receivePiece(factory.name);
-		//receivePiece('j');
+	//	factory.spawnPiece();
+	//	receivePiece(factory.name);
+		receivePiece('i');
 		return;
 	}
 
 	if (collisionCheck(factory.name, factory.currentRotation)) {
-		factory.spawnPiece();
-		receivePiece(factory.name);
-	//	receivePiece('j');
+	//	factory.spawnPiece();
+	//	receivePiece(factory.name);
+		receivePiece('i');
 		return;
 	}
 	

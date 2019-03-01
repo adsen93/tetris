@@ -246,7 +246,7 @@ int main()
 
 
 	
-
+/*/
 	Block piece = Block();
 	piece.name = 'i';
 	piece.rotate();
@@ -259,18 +259,17 @@ int main()
 	cout << endl;
 	piece.rotate();
 	cout << endl;
-
+	*/
 	GameBoard board = GameBoard();
-	board.factory.mixPieces();
-	board.factory.spawnPiece();
-	//board.showField();
-	board.receivePiece(board.factory.name);
-	//board.factory.name = 'j';
+//	board.factory.mixPieces();
+//	board.factory.spawnPiece();
+//	board.receivePiece(board.factory.name);
+	board.factory.name = 'i';
 	//cout << board.factory.name;
 	//cout << endl;
 //	cout << board.factory.currentRotation;
 //	cout << endl;
-//	board.receivePiece('j');
+	board.receivePiece('i');
 	cout << endl;
 	board.showField();
 	/*
@@ -323,7 +322,7 @@ int main()
 	board.showField();
 	cout << endl;
 	*/
-
+	int rotate = 0;
 
 	
 	double startTime = GetTickCount();
@@ -333,12 +332,16 @@ int main()
 		double currentTime = GetTickCount() - startTime;
 
 		if (currentTime >= 1000) //1 and a half seconds.
-		{
+		{	
+			
 			board.update();
 			board.showField();
 			cout << endl;
 			//Reset the timer.
 			startTime = GetTickCount();
+			cin >> rotate ;
+			if (rotate == 1)
+				board.rotateBlock(board.factory.name,board.factory.currentRotation);
 		}
 		
 		//Run other code here while not updating.

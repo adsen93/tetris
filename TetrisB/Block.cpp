@@ -23,6 +23,12 @@ void Block::printBlock(int block[4][4]) {
 
 void Block::rotate()
 {
+	if (currentRotation < 3) 
+		currentRotation++;
+
+	else currentRotation = 0;
+
+	/*
 	switch (name) {
 	case 'i': { if (currentRotation != 3) {
 		currentRotation++;
@@ -95,6 +101,7 @@ void Block::rotate()
 	}
 
 	}
+	*/
 }
 
 void Block::mixPieces() {
@@ -105,7 +112,7 @@ void Block::mixPieces() {
 void Block::spawnPiece() {
 	if (currentPiece < 7) {
 		name = pieces[currentPiece];
-		currentPiece++;
+		currentPiece++;	//might have to add rotation =0 later
 	}
 
 	else {

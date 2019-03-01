@@ -15,6 +15,7 @@ private:
 	point p2;
 	point p3;
 	point p4;
+	void shiftPoints(char name, int rotation);
 	bool gameOver = false;
 public:
 	Block factory = Block();
@@ -24,5 +25,7 @@ public:
 	 void receivePiece(char);
 	 void update();
 	 bool collisionCheck(char, int);
+	// bool rotationCheck(char, int);
+	 void rotateBlock(char, int);
 	 bool getGameOver();
 };
