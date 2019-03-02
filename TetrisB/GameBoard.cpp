@@ -192,20 +192,26 @@ bool GameBoard::collisionCheck(char name, int rotation) {
 			if (field[p1.x + 1][p1.y] == 1 || field[p2.x + 1][p2.y] == 1 || field[p3.x + 1][p3.y] == 1 || field[p4.x + 1][p4.y] == 1)
 				return true;
 			else return false;
+
 		}
 
+
 		else if (rotation == 1){
-			if (field[p3.x + 3][p3.y] == 1)
+			if (field[p4.x + 1][p3.y] == 1)
 				return true;
 			else return false;
 		}
 		
 		else if (rotation == 2) {
-			if (field[p3.x + 3][p3.y] == 1)
+			if (field[p4.x + 2][p4.y - 2] == 1)
 				return true;
 			else return false;
-		}
 
+		
+		}
+		else if (rotation == 3) {
+
+				}
 		break;
 	}
 
@@ -365,39 +371,18 @@ void GameBoard::rotateBlock(char name, int rotation) {
 	switch (name) {
 	case 'i': {
 		 if (rotation == 0) {
-			if (field[p3.x + 3][p3.y] == 1)
+			if (field[p1.x - 1][p1.y + 2] == 1 || field[p3.x + 1][p3.y] == 1|| field[p4.x + 2][p4.y -1] == 1)
 				return;
 			else {
 
-				field[p1.x][p1.y] = 0;
-				field[p2.x][p2.y] = 0;
-				field[p3.x][p3.y] = 0;
-				field[p4.x][p4.y] = 0;
-
-				p1.x = p1.x - 1;
-				p1.y = p1.y + 2;
-
-				p2.x = p2.x;
-				p2.y = p2.y + 1;
-
-				p3.x = p3.x + 1;
-				p3.y = p3.y;
-
-				p4.x = p4.x + 2;
-				p4.y = p4.y - 1;
-
-				field[p1.x][p1.y] = 1;
-				field[p2.x][p2.y] = 1;
-				field[p3.x][p3.y] = 1;
-				field[p4.x][p4.y] = 1;
-				
+				shiftPoints(name, rotation);
 				factory.rotate();
 				return;
 			};
 		}
 
 		else if (rotation == 1) {
-			 if (field[p1.x + 3	][p1.y - 2] == 1 || field[p2.x + 2][p2.y - 1] == 1 /*|| field[p3.x + 1][p3.y] == 1*/ || field[p4.x - 1][p4.y + 1] == 1)
+			 if (field[p1.x + 2	][p1.y - 2] == 1 || field[p2.x + 1][p2.y - 1] == 1  || field[p4.x - 1][p4.y + 1] == 1)
 				return;
 			 else {
 				 shiftPoints(name, rotation);
@@ -407,7 +392,7 @@ void GameBoard::rotateBlock(char name, int rotation) {
 		}
 
 		else if (rotation == 2) {
-			 if (field[p4.x + 2][p4.y - 2] == 1)
+			 if (field[p1.x - 2][p1.y + 1] == 1 || field[p2.x - 1][p2.y] == 1 || field[p4.x + 1][p4.y - 2] == 1)
 				 return;
 			 else {
 				 shiftPoints(name, rotation);
@@ -416,7 +401,7 @@ void GameBoard::rotateBlock(char name, int rotation) {
 		 }
 
 		else if (rotation == 3) {
-			 if (field[p1.x + 2][p1.y - 1] == 1 /*|| field[p2.x + 2][p2.y - 1] == 1 */|| field[p3.x][p3.y + 1] == 1 || field[p4.x - 1][p4.y + 2] == 1)
+			 if (field[p1.x + 1][p1.y - 1] == 1 || field[p3.x + 1][p3.y + 1] == 1 || field[p4.x - 2][p4.y + 2] == 1)
 				 return;
 
 			 else {

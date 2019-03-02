@@ -1,10 +1,12 @@
 #include "Block.h"
 #include "GameBoard.h"
+#include <conio.h>
 #include <ctime>
 #include <iostream>
-#include <vector>
 #include <list>
+#include <vector>
 #include <Windows.h>
+
 
 
 using namespace std;
@@ -23,6 +25,11 @@ void spawnRandomBlock() {
 
 }
 
+#define KEY_UP 72
+#define KEY_DOWN 80
+#define KEY_LEFT 75
+#define KEY_RIGHT 77
+
 
 
 int main()
@@ -39,6 +46,8 @@ int main()
 	const int width = 10;	//Width of playfield.
 	const int height = 24;	//Height of playfield.
 
+	char key = _getch();
+	int value = key;
 	//Creating playfield.
 	/*int playfield[width][height];
 
@@ -75,10 +84,7 @@ int main()
 	};
 	*/
 
-	struct A {
-		int array[4][4];
-	};
-
+	
 	
 	//int currentBlock[4][4];
 
@@ -333,15 +339,33 @@ int main()
 
 		if (currentTime >= 1000) //1 and a half seconds.
 		{	
-			
+			switch (_getch()) {
+
+			case KEY_UP:
+				cout  << " GOES UP\n\n";
+				break;
+			case KEY_DOWN:
+				cout  << " GOES DOWN\n\n";
+				break;
+			case KEY_LEFT:
+				cout << " GOES LEFT\n\n";
+				break;
+			case KEY_RIGHT:
+				cout  << " GOES RIGHT\n\n";
+				break;
+			}
+
+			key = _getch();
+			value = key;
+
 			board.update();
 			board.showField();
 			cout << endl;
 			//Reset the timer.
 			startTime = GetTickCount();
-			cin >> rotate ;
-			if (rotate == 1)
-				board.rotateBlock(board.factory.name,board.factory.currentRotation);
+			//cin >> rotate ;
+			//if (rotate == 1)
+			//	board.rotateBlock(board.factory.name,board.factory.currentRotation);
 		}
 		
 		//Run other code here while not updating.

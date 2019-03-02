@@ -23,7 +23,7 @@ void Block::printBlock(int block[4][4]) {
 
 void Block::rotate()
 {
-	if (currentRotation < 3) 
+	if (currentRotation < 4) 
 		currentRotation++;
 
 	else currentRotation = 0;
