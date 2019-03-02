@@ -338,7 +338,7 @@ int main()
 		double currentTime = GetTickCount() - startTime;
 
 		if (currentTime >= 1000) //1 and a half seconds.
-		{	
+		{	/*
 			switch (_getch()) {
 
 			case KEY_UP:
@@ -357,15 +357,15 @@ int main()
 
 			key = _getch();
 			value = key;
-
+			*/
 			board.update();
 			board.showField();
 			cout << endl;
 			//Reset the timer.
 			startTime = GetTickCount();
-			//cin >> rotate ;
-			//if (rotate == 1)
-			//	board.rotateBlock(board.factory.name,board.factory.currentRotation);
+			cin >> rotate ;
+			if (rotate == 1)
+				board.rotateBlock(board.factory.name,board.factory.currentRotation);
 		}
 		
 		//Run other code here while not updating.
