@@ -4,8 +4,9 @@
 #include <ctime>
 #include <iostream>
 #include <list>
+#include <thread>
 #include <vector>
-#include <Windows.h>
+//#include <Windows.h>
 
 
 
@@ -24,6 +25,7 @@ void printBlock(int block[4][4]) {
 void spawnRandomBlock() {
 
 }
+
 
 #define KEY_UP 72
 #define KEY_DOWN 80
@@ -248,9 +250,17 @@ int main()
 		{0,0,0,0}
 	};
 	*/
-	
 
 
+/*
+int nScreenWidth = 80;			// Console Screen Size X (columns)
+int nScreenHeight = 30;			// Console Screen Size Y (rows)
+wchar_t *screen = new wchar_t[nScreenWidth*nScreenHeight];
+for (int i = 0; i < nScreenWidth*nScreenHeight; i++) screen[i] = L' ';
+HANDLE hConsole = CreateConsoleScreenBuffer(GENERIC_READ | GENERIC_WRITE, 0, NULL, CONSOLE_TEXTMODE_BUFFER, NULL);
+SetConsoleActiveScreenBuffer(hConsole);
+DWORD dwBytesWritten = 0;
+*/
 	
 /*/
 	Block piece = Block();
@@ -267,15 +277,16 @@ int main()
 	cout << endl;
 	*/
 	GameBoard board = GameBoard();
-//	board.factory.mixPieces();
-//	board.factory.spawnPiece();
-//	board.receivePiece(board.factory.name);
-	board.factory.name = 'i';
+	board.factory.mixPieces();
+	board.factory.spawnPiece();
+	board.receivePiece(board.factory.name);
+	
 	//cout << board.factory.name;
 	//cout << endl;
-//	cout << board.factory.currentRotation;
+	//cout << board.factory.currentRotation;
 //	cout << endl;
-	board.receivePiece('i');
+//	board.factory.name = 'l';
+//	board.receivePiece('l');
 	cout << endl;
 	board.showField();
 	/*
@@ -330,47 +341,41 @@ int main()
 	*/
 	int rotate = 0;
 
-	
-	double startTime = GetTickCount();
-	
+	bool bKey[4];
+	double prevTime = GetTickCount();
+	double elapsedTime;
+	double currentTime;
 	while (!(board.getGameOver()))
-	{
-		double currentTime = GetTickCount() - startTime;
+	{	
+		this_thread::sleep_for(50ms);
+		board.checkKeyState();
+		currentTime = GetTickCount();
+		elapsedTime = currentTime - prevTime;
+		//prevTime = currentTime;
+		
+		
+		//key = _getch();
+		//value = key;
 
-		if (currentTime >= 1000) //1 and a half seconds.
-		{	/*
-			switch (_getch()) {
-
-			case KEY_UP:
-				cout  << " GOES UP\n\n";
-				break;
-			case KEY_DOWN:
-				cout  << " GOES DOWN\n\n";
-				break;
-			case KEY_LEFT:
-				cout << " GOES LEFT\n\n";
-				break;
-			case KEY_RIGHT:
-				cout  << " GOES RIGHT\n\n";
-				break;
-			}
-
-			key = _getch();
-			value = key;
-			*/
+		if (elapsedTime >= 1000) //1 and a half seconds.
+		{	
+			
+		//board.checkKeyState();
 			board.update();
 			board.showField();
 			cout << endl;
+			prevTime = currentTime;
 			//Reset the timer.
-			startTime = GetTickCount();
-			cin >> rotate ;
-			if (rotate == 1)
-				board.rotateBlock(board.factory.name,board.factory.currentRotation);
+			//startTime = GetTickCount();
+			//cin >> rotate ;
+			//if (rotate == 1)
+			//	board.rotateBlock(board.factory.name,board.factory.currentRotation);
 		}
 		
 		//Run other code here while not updating.
 
 		
+
 	}
 	
 	
