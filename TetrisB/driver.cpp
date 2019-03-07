@@ -1,5 +1,7 @@
-#include "Block.h"
+//#include "Block.h"
 #include "GameBoard.h"
+#include "olcGameConsoleEngineGL.h"
+//#include"EngineExample.h"
 #include <conio.h>
 #include <ctime>
 #include <iostream>
@@ -8,88 +10,49 @@
 #include <vector>
 //#include <Windows.h>
 
+/*
+class example : public olcConsoleGameEngine {
+public:
+	GameBoard board = GameBoard();
+	example() {}
 
-
-using namespace std;
-
-
-void printBlock(int block[4][4]) {
-	for (int i = 0; i < 4; i++) {
-		for (int j = 0; j < 4; j++) {
-			cout << block[i][j];
-		}
-		cout << endl;
+	virtual bool OnUserCreate() {
+		ConstructConsole(160, 100, 8, 8);
+		Fill(0, 0, 0, 100, '*', 0x0009);
+		board.factory.mixPieces();
+		board.factory.spawnPiece();
+		board.receivePiece(board.factory.name);
+		return true;
 	}
-}
 
-void spawnRandomBlock() {
-
-}
-
-
-#define KEY_UP 72
-#define KEY_DOWN 80
-#define KEY_LEFT 75
-#define KEY_RIGHT 77
-
+	virtual bool OnUserUpdate(float fElapsedTime) {
+		Draw(25, 25, '*', 0x0008);
+		return true;
+	}
+};
+*/
+using namespace std;
 
 
 int main()
 {
 	srand(time(NULL));
-	//Block iBlock = Block("****", 2);
-	//wstring o;
-	
-	//Block oBlock = Block(o, 1);
-	//cout << iBlock.shape <<endl;
-	//cout << oBlock.shape << endl;
-	//wcout << o;
-
 	const int width = 10;	//Width of playfield.
-	const int height = 24;	//Height of playfield.
-
-	char key = _getch();
-	int value = key;
-	//Creating playfield.
-	/*int playfield[width][height];
-
-	for (int i = 0; i < height; i++)
-		for (int j = 0; j < width; j++)
-			 playfield[i][j] = 0;
-
-			 */
-	/*
-	for (int i = 0; i < height; i++) {
-		cout << '|';
-		for (int j = 0; j < width; j++) {
-			//cout << playfield[i][j];
-			cout << " ";
-			cout << " ";
-		}
-		cout << '|';
-		cout << endl;
-	}
-	for (int i = 0; i < width; i++)
-		cout << "--";
-	cout << "--";
-	cout << endl;
-
-	*/
-
-	//createBlocks();
-
-	/*vector<vector<int> > iBlock{
-		{0,0,0,0},
-		{1,1,1,1},
-		{0,0,0,0},
-		{0,0,0,0}
-	};
-	*/
-
-	
-	
+	const int height = 20;	//Height of playfield.
+	GameBoard board = GameBoard();
+	board.factory.mixPieces();
+	board.factory.spawnPiece();
+	board.receivePiece(board.factory.name);
+	//example demo;
+	//demo.ConstructConsole(160,100, 8,8);
+	//demo.Draw(0, 0, '|', 0x000F);
+	//demo.Start();
+	//EngineExample demo;
+	//demo.ConstructConsole(160, 100, 8, 8);
+	//demo.Start();
 	//int currentBlock[4][4];
 
+	
 
 	/*
 	//All tetris blocks initialized.
@@ -262,109 +225,40 @@ SetConsoleActiveScreenBuffer(hConsole);
 DWORD dwBytesWritten = 0;
 */
 	
-/*/
-	Block piece = Block();
-	piece.name = 'i';
-	piece.rotate();
-	cout << endl;
-	piece.rotate();
-	cout << endl;
-	piece.rotate();
-	cout << endl;
-	piece.rotate();
-	cout << endl;
-	piece.rotate();
-	cout << endl;
-	*/
-	GameBoard board = GameBoard();
-	board.factory.mixPieces();
-	board.factory.spawnPiece();
-	board.receivePiece(board.factory.name);
-	
-	//cout << board.factory.name;
-	//cout << endl;
-	//cout << board.factory.currentRotation;
-//	cout << endl;
-//	board.factory.name = 'l';
-//	board.receivePiece('l');
-	cout << endl;
-	board.showField();
-	/*
-	board.factory.spawnPiece();
-	cout << board.factory.name;
-	board.receivePiece(board.factory.name);
-	board.showField();
-	
-	cout << endl;
 
-	board.factory.spawnPiece();
-	cout << board.factory.name;
-	board.receivePiece(board.factory.name);
-	board.showField();
-	cout << endl;
+//	int rotate = 0;
 
-	board.factory.spawnPiece();
-	cout << board.factory.name;
-	board.receivePiece(board.factory.name);
-	board.showField();
-	cout << endl;
-
-	board.factory.spawnPiece();
-	cout << board.factory.name;
-	board.receivePiece(board.factory.name);
-	board.showField();
-	cout << endl;
-
-	board.factory.spawnPiece();
-	cout << board.factory.name;
-	board.receivePiece(board.factory.name);
-	board.showField();
-	cout << endl;
-
-	board.factory.spawnPiece();
-	cout << board.factory.name;
-	board.receivePiece(board.factory.name);
-	board.showField();
-	cout << endl;
-
-	board.factory.spawnPiece();
-	cout << board.factory.name;
-	board.receivePiece(board.factory.name);
-	board.showField();
-	cout << endl;
-
-	board.factory.spawnPiece();
-	cout << board.factory.name;
-	board.receivePiece(board.factory.name);
-	board.showField();
-	cout << endl;
-	*/
-	int rotate = 0;
-
-	bool bKey[4];
+	//bool bKey[4];
 	double prevTime = GetTickCount();
 	double elapsedTime;
 	double currentTime;
+	
 	while (!(board.getGameOver()))
 	{	
 		this_thread::sleep_for(50ms);
+		//WriteConsoleOutputCharacter(hConsole, a, 1, { board.getP1().x,board.getP1().y }, &dwBytesWritten);
+		//WriteConsoleOutputCharacter(hConsole, a, 1, { board.getP2().x,board.getP2().y }, &dwBytesWritten);
+		//WriteConsoleOutputCharacter(hConsole, a, 1, { board.getP3().x,board.getP3().y }, &dwBytesWritten);
+		//WriteConsoleOutputCharacter(hConsole, a, 1, { board.getP4().x,board.getP4().y }, &dwBytesWritten);
 		board.checkKeyState();
 		currentTime = GetTickCount();
 		elapsedTime = currentTime - prevTime;
 		//prevTime = currentTime;
 		
 		
-		//key = _getch();
-		//value = key;
+		
 
 		if (elapsedTime >= 1000) //1 and a half seconds.
 		{	
-			
+			system("CLS");
 		//board.checkKeyState();
 			board.update();
 			board.showField();
+			// Display Frame
+			//WriteConsoleOutputCharacter(hConsole, row, width *height, { 0,0 }, &dwBytesWritten);
 			cout << endl;
 			prevTime = currentTime;
+
 			//Reset the timer.
 			//startTime = GetTickCount();
 			//cin >> rotate ;
@@ -372,49 +266,17 @@ DWORD dwBytesWritten = 0;
 			//	board.rotateBlock(board.factory.name,board.factory.currentRotation);
 		}
 		
-		//Run other code here while not updating.
-
+		
+	
 		
 
 	}
 	
+	cout << "oops game over\n";
+
 	
 
-	/*
-	piece.mixPieces();
-	piece.spawnBlock();
-	piece.spawnBlock();
-	piece.spawnBlock();
-	piece.spawnBlock();
-	piece.spawnBlock();
-	piece.spawnBlock();
-	piece.spawnBlock();
-	piece.spawnBlock();
-	piece.spawnBlock();
-	piece.spawnBlock();
-	piece.spawnBlock();
-	piece.spawnBlock();
-	piece.spawnBlock();
-	piece.spawnBlock();
-	piece.spawnBlock();
-	piece.spawnBlock();
-	piece.spawnBlock();
-	piece.spawnBlock();
-	piece.spawnBlock();
-	piece.spawnBlock();
-	piece.spawnBlock();
-	piece.spawnBlock();
-	piece.spawnBlock();
-	piece.spawnBlock();
-	piece.spawnBlock();
-	piece.spawnBlock();
-	piece.spawnBlock();
-	piece.spawnBlock();
-	piece.spawnBlock();
-	piece.spawnBlock();
-	piece.spawnBlock();
-	piece.spawnBlock();
-	*/
+	
 	getchar();
 	return 0;
 

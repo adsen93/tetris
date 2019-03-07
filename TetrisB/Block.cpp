@@ -28,80 +28,6 @@ void Block::rotate()
 
 	else currentRotation++;
 
-	/*
-	switch (name) {
-	case 'i': { if (currentRotation != 3) {
-		currentRotation++;
-		printBlock(iBlock);
-	}
-			  else {
-		currentRotation = 0;
-		printBlock(iBlock);
-	}
-			  break;
-	}
-
-	case 'j': { if (currentRotation != 3) {
-		currentRotation++;
-		printBlock(jBlock);
-	}
-			  else {
-		currentRotation = 0;
-		printBlock(jBlock);
-	}
-			  break;
-	}
-
-	case 'l': { if (currentRotation != 3) {
-		currentRotation++;
-		printBlock(lBlock);
-	}
-			  else {
-		currentRotation = 0;
-		printBlock(lBlock);
-	}
-			  break;
-	}
-
-	case 'o': { printBlock(oBlock);
-		printBlock(oBlock);
-		break;
-	}
-
-	case 's': {if (currentRotation != 3) {
-		currentRotation++;
-		printBlock(sBlock);
-	}
-			  else {
-		currentRotation = 0;
-		printBlock(sBlock);
-	}
-			  break;
-	}
-	case 't': { if (currentRotation != 3) {
-		currentRotation++;
-		printBlock(tBlock);
-	}
-			  else {
-		currentRotation = 0;
-		printBlock(tBlock);
-	}
-			  break;
-	}
-
-	case 'z': {if (currentRotation != 3) {
-		currentRotation++;
-		printBlock(zBlock);
-	}
-			  else {
-		currentRotation = 0;
-		printBlock(zBlock);
-	}
-			  break;
-	}
-
-	}
-	*/
 }
 
 void Block::mixPieces() {
@@ -117,8 +43,6 @@ void Block::spawnPiece() {
 	}
 
 	else {
-		cout << endl;
-		cout << "mixing the bag"; cout<<endl;
 		mixPieces();
 		currentPiece = 0;
 		name = pieces[currentPiece];
@@ -129,7 +53,3 @@ void Block::spawnPiece() {
 Block::Block(){
 }
 
-//Block::Block(int shape[][]) {
-	
-	
-//}
