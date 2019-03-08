@@ -1,2 +1,0 @@
-﻿  list.cpp
-c:\users\ahmed\source\repos\tetrisb\tetrisb\list.cpp(16): error C3863: array type 'int [4][4]' is not assignable
