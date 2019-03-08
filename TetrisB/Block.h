@@ -9,11 +9,21 @@
 
 using namespace std;
 
+//This class manages the creation of blocks that are used in the game. 
 class Block {
 public:
 	
 	char name;		//Name of the piece.
-	//All tetris blocks initialized.
+	int currentRotation = 0;	//Current rotation of the block.
+	int currentBlock = 0;		//Current block.
+	int numBlocks = 0;			//Number of blocks created.
+	void rotate();				
+	void spawnBlock();			
+	void mixBlocks();			
+	array <char, 14> blocks{'i','j','l','o','s','t','z','i','j','l','o','s','t','z' };	//List that holds different types of blocks. This tetris uses the 14 bag system.
+	Block();
+};
+/*All tetris blocks
 	int iBlock[4][4][4] = {
 		{
 		{0,0,0,0},
@@ -145,21 +155,7 @@ public:
 
 	};
 
-	/*
-	int sBlock[4][4] = {
-		{0,1,1,0},
-		{1,1,0,0},
-		{0,0,0,0},
-		{0,0,0,0}
-	};
-
-	int sBlock2[4][4] = {
-		{1,0,0,0},
-		{1,1,0,0},
-		{0,1,0,0},
-		{0,0,0,0}
-	};
-	*/
+	
 	int tBlock[4][4][4] = {
 		{
 		{0,1,0,0},
@@ -222,132 +218,4 @@ public:
 		},
 
 	};
-
-	/*
-	int zBlock[4][4] = {
-		{1,1,0,0},
-		{0,1,1,0},
-		{0,0,0,0},
-		{0,0,0,0}
-	};
-
-	int zBlock2[4][4] = {
-		{0,1,0,0},
-		{1,1,0,0},
-		{1,0,0,0},
-		{0,0,0,0}
-	};
-
 	*/
-	/*
-	//Initializing all block rotations.
-
-	//iBlock rotations
-	int iBlock2[4][4] = {
-		{0,0,1,0},
-		{0,0,1,0},
-		{0,0,1,0},
-		{0,0,1,0}
-	};
-
-	int iBlock3[4][4] = {
-		{0,0,0,0},
-		{0,0,0,0},
-		{1,1,1,1},
-		{0,0,0,0}
-	};
-
-	int iBlock4[4][4] = {
-		{0,1,0,0},
-		{0,1,0,0},
-		{0,1,0,0},
-		{0,1,0,0}
-	};
-
-	//oBlock has no rotations.
-
-	//tBlock rotations.
-	int tBlock2[4][4] = {
-		{0,1,0,0},
-		{0,1,1,0},
-		{0,1,0,0},
-		{0,0,0,0}
-	};
-
-	int tBlock3[4][4] = {
-		{0,0,0,0},
-		{1,1,1,0},
-		{0,1,0,0},
-		{0,0,0,0}
-	};
-
-	int tBlock4[4][4] = {
-		{0,1,0,0},
-		{1,1,0,0},
-		{0,1,0,0},
-		{0,0,0,0}
-	};
-
-	//sBlock rotations.
-	
-
-	//zBlock rotations.
-	
-
-	//jBlock rotations.
-	int jBlock2[4][4] = {
-		{0,1,1,0},
-		{0,1,0,0},
-		{0,1,0,0},
-		{0,0,0,0}
-	};
-
-	int jBlock3[4][4] = {
-		{0,0,0,0},
-		{1,1,1,0},
-		{0,0,1,0},
-		{0,0,0,0}
-	};
-
-	int jBlock4[4][4] = {
-		{0,1,0,0},
-		{0,1,0,0},
-		{1,1,0,0},
-		{0,0,0,0}
-	};
-
-	//lBlock rotations.
-	int lBlock2[4][4] = {
-		{0,1,0,0},
-		{0,1,0,0},
-		{0,1,1,0},
-		{0,0,0,0}
-	};
-
-	int lBlock3[4][4] = {
-		{0,0,0,0},
-		{1,1,1,0},
-		{1,0,0,0},
-		{0,0,0,0}
-	};
-
-	int lBlock4[4][4] = {
-		{1,1,0,0},
-		{0,1,0,0},
-		{0,1,0,0},
-		{0,0,0,0}
-	};
-
-	*/
-	int currentBlock[4][4];
-	int currentRotation = 0;	//Current rotation of the block.
-	int currentPiece = 0;		
-	//Array2D iblock(4, 4);		//Space required for shape of the block.
-	void rotate();	
-	void spawnPiece();
-	void mixPieces();
-	void printBlock(int block[4][4][4]);
-	void printBlock(int block[4][4]);
-	array <char, 7> pieces{'i','j','l','o','s','t','z'};	//List that holds different types of pieces.
-	Block();
-};

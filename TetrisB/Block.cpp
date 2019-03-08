@@ -2,25 +2,8 @@
 using namespace std;
 
 
-void Block::printBlock(int block[4][4][4]) {
-	
-	for (int i = 0; i < 4; i++) {
-		for (int j = 0; j < 4; j++) {
-			cout << block[currentRotation][i][j];
-		}
-		cout << endl;
-	}
-}
 
-void Block::printBlock(int block[4][4]) {
-	for (int i = 0; i < 4; i++) {
-		for (int j = 0; j < 4; j++) {
-			cout << block[i][j];
-		}
-		cout << endl;
-	}
-}
-
+//Sets the rotation of the block to the next variation.
 void Block::rotate()
 {
 	if (currentRotation == 3) 
@@ -30,23 +13,28 @@ void Block::rotate()
 
 }
 
-void Block::mixPieces() {
+//Mixes the bag of blocks before spawning them. This tetris uses the 14 bag system. The bag contains 2 instances of each block: i, j, l, o, s, t and z. The order is mixed and the blocks are sent out.
+void Block::mixBlocks() {
 	unsigned seed =::chrono::system_clock::now().time_since_epoch().count();
-	shuffle(pieces.begin(), pieces.end(), std::default_random_engine(seed));
+	shuffle(blocks.begin(), blocks.end(), std::default_random_engine(seed));
 }
 
-void Block::spawnPiece() {
-	if (currentPiece < 7) {
-		name = pieces[currentPiece];
-		currentPiece++;	
+
+void Block::spawnBlock() {
+	if (currentBlock < blocks.size()) {	//If we have not reached the end of the bag, send the piece.
+		name = blocks[currentBlock];
+		currentBlock++;	
+		numBlocks++;
 		currentRotation = 0;
 	}
 
-	else {
-		mixPieces();
-		currentPiece = 0;
-		name = pieces[currentPiece];
-		currentPiece++;
+	else {		//Else mix the bag again then send the piece.
+		mixBlocks();
+		currentBlock = 0;
+		name = blocks[currentBlock];
+		currentBlock++;
+		numBlocks++;
+		currentRotation = 0;
 	}
 }
 

@@ -17,7 +17,6 @@ GameBoard::GameBoard() {
 void GameBoard::showField() {
 	for (int i = 0; i < height; i++) {
 		for (int j = 0; j < width; j++) {	
-			
 			if (field[i][j] == 0) {
 				cout << " ";
 			}
@@ -29,23 +28,52 @@ void GameBoard::showField() {
 		cout << "\n";
 	}
 	cout << "####################";
+	cout << "\nScore: ";
+	cout << score;
+	cout << "\nBlocks: ";
+	cout << factory.numBlocks;
 }
 
-void GameBoard::receivePiece(char name) {
-	/*
-	p1.x = 1;
-	p1.y = 3;
-	
-	p2.x =  1;
-	p2.y = 6;
-	
-	p3.x =  4;
-	p3.y = 3;
-	
-	p4.x = 4;
-	p4.y = 6;
-	*/
-	factory.currentRotation = 0;
+/*
+The receiveBlock method spawns the block at the correct location. It also sets the 4 points to track the block.
+
+i:		{0	,0	,0	,0},
+		{p1	,p2	,p3	,p4},
+		{0	,0	,0	,0},
+		{0	,0	,0	,0}
+
+j:
+		{p4	,0	,0	,0},
+		{p1	,p2	,p3	,0},
+		{0	,0	,0	,0},
+		{0	,0	,0	,0}
+l:
+		{0	,0	,p4	,0},
+		{p1	,p2	,p3	,0},
+		{0	,0	,0	,0},
+		{0	,0	,0	,0}
+o:
+		{0	,0	,0	,0},
+		{0	,p1	,p3	,0},
+		{0	,p2	,p4	,0},
+		{0	,0	,0	,0}
+s:
+		{0	,p2	,p1	,0},
+		{p4	,p3	,0	,0},
+		{0	,0	,0	,0},
+		{0	,0	,0	,0}
+t:
+		{0	,p4	,0	,0},
+		{p1	,p2	,p3	,0},
+		{0	,0	,0	,0},
+		{0	,0	,0	,0}
+z:
+		{p1	,p2	,0	,0},
+		{0	,p3	,p4	,0},
+		{0	,0	,0	,0},
+		{0	,0	,0	,0}
+*/
+void GameBoard::receiveBlock(char name) {
 	switch (name) {
 	case 'i': {
 		field[2][3] = 1;
@@ -187,6 +215,7 @@ void GameBoard::receivePiece(char name) {
 	
 	
 }
+
 
 bool GameBoard::collisionCheck(char name, int rotation) {
 	switch (name) {
@@ -365,13 +394,17 @@ bool GameBoard::collisionCheck(char name, int rotation) {
 	return false;
 }
 
+/*The shiftPoints method sets the points to the correct position if a rotation is allowed. Each rotation is  90 degree clockwise turn with one point being the anchor. Special cases
+are blocks i and o. i does not have a fixed anchor and o does not have any rotations.
+Anchor point for blocks j and l is p2.
+Anchor point for block t is p2.
+Anchor point for blocks s and z is p3.
+*/
 void GameBoard::shiftPoints(char name, int rotation) {
-	field[p1.x][p1.y] = 0;
-	field[p2.x][p2.y] = 0;
-	field[p3.x][p3.y] = 0;
-	field[p4.x][p4.y] = 0;
-
-
+	point hold1 = p1;
+	point hold2 = p2;
+	point hold3 = p3;
+	point hold4 = p4;
 	switch (name) {
 	case 'i': { 
 		if (rotation == 0) {
@@ -431,13 +464,10 @@ void GameBoard::shiftPoints(char name, int rotation) {
 		break;
 	}
 
-	case 'j': { 
+	case 'j': {		//p2 anchor.
 		if (rotation == 0) {
 			p1.x = p1.x - 1;
 			p1.y = p1.y + 1;
-
-			//p2.x = p2.x;
-			//p2.y = p2.y + 1;
 
 			p3.x = p3.x + 1;
 			p3.y = p3.y - 1;
@@ -448,9 +478,6 @@ void GameBoard::shiftPoints(char name, int rotation) {
 		else if (rotation == 1) {
 			p1.x = p1.x + 1;
 			p1.y = p1.y + 1;
-
-			//p2.x = p2.x + 1;
-			//p2.y = p2.y - 1;
 
 			p3.x = p3.x - 1;
 			p3.y = p3.y - 1;
@@ -463,9 +490,6 @@ void GameBoard::shiftPoints(char name, int rotation) {
 			p1.x = p1.x + 1;
 			p1.y = p1.y - 1;
 
-			//p2.x = p2.x - 1;
-			//p2.y = p2.y;
-
 			p3.x = p3.x - 1;
 			p3.y = p3.y + 1;
 
@@ -477,9 +501,6 @@ void GameBoard::shiftPoints(char name, int rotation) {
 			p1.x = p1.x - 1;
 			p1.y = p1.y - 1;
 
-			//p2.x = p2.x;
-			//p2.y = p2.y;
-
 			p3.x = p3.x + 1;
 			p3.y = p3.y + 1;
 
@@ -489,13 +510,10 @@ void GameBoard::shiftPoints(char name, int rotation) {
 		break;
 	}
 
-	case 'l': {
+	case 'l': {	//p2 anchor.
 		if (rotation == 0) {
 			p1.x = p1.x - 1;
 			p1.y = p1.y + 1;
-
-			//p2.x = p2.x;
-			//p2.y = p2.y + 1;
 
 			p3.x = p3.x + 1;
 			p3.y = p3.y - 1;
@@ -506,9 +524,6 @@ void GameBoard::shiftPoints(char name, int rotation) {
 		else if (rotation == 1) {
 			p1.x = p1.x + 1;
 			p1.y = p1.y + 1;
-
-			//p2.x = p2.x + 1;
-			//p2.y = p2.y - 1;
 
 			p3.x = p3.x - 1;
 			p3.y = p3.y - 1;
@@ -521,9 +536,6 @@ void GameBoard::shiftPoints(char name, int rotation) {
 			p1.x = p1.x + 1;
 			p1.y = p1.y - 1;
 
-			//p2.x = p2.x - 1;
-			//p2.y = p2.y;
-
 			p3.x = p3.x - 1;
 			p3.y = p3.y + 1;
 
@@ -535,9 +547,6 @@ void GameBoard::shiftPoints(char name, int rotation) {
 			p1.x = p1.x - 1;
 			p1.y = p1.y - 1;
 
-			//p2.x = p2.x;
-			//p2.y = p2.y;
-
 			p3.x = p3.x + 1;
 			p3.y = p3.y + 1;
 
@@ -547,20 +556,17 @@ void GameBoard::shiftPoints(char name, int rotation) {
 		break;
 	}
 
-	case 'o': {
+	case 'o': {	//no rotations.
 		break;
 	}
 
-	case 's': {
+	case 's': {	//p3 anchor.
 		if (rotation == 0) {
 			p1.x = p1.x +2;
 			p1.y = p1.y;
 
 			p2.x = p2.x + 1;
 			p2.y = p2.y + 1;
-
-			//p3.x = p3.x + 1;
-			//p3.y = p3.y - 1;
 
 			p4.x = p4.x - 1;
 			p4.y = p4.y + 1;
@@ -571,9 +577,6 @@ void GameBoard::shiftPoints(char name, int rotation) {
 
 			p2.x = p2.x + 1;
 			p2.y = p2.y - 1;
-
-			//p3.x = p3.x - 1;
-			//p3.y = p3.y - 1;
 
 			p4.x = p4.x + 1;
 			p4.y = p4.y + 1;
@@ -586,9 +589,6 @@ void GameBoard::shiftPoints(char name, int rotation) {
 			p2.x = p2.x - 1;
 			p2.y = p2.y - 1;
 
-			//p3.x = p3.x - 1;
-			//p3.y = p3.y + 1;
-
 			p4.x = p4.x + 1;
 			p4.y = p4.y - 1;
 		}
@@ -600,21 +600,15 @@ void GameBoard::shiftPoints(char name, int rotation) {
 			p2.x = p2.x - 1;
 			p2.y = p2.y + 1;
 
-			//p3.x = p3.x + 1;
-			//p3.y = p3.y + 1;
-
 			p4.x = p4.x - 1;
 			p4.y = p4.y - 1;
 		}
 		break;
 	}
-	case 't': { 
+	case 't': {	//p2 anchor.
 		if (rotation == 0) {
 			p1.x = p1.x - 1;
 			p1.y = p1.y + 1;
-
-			//p2.x = p2.x;
-			//p2.y = p2.y + 1;
 
 			p3.x = p3.x + 1;
 			p3.y = p3.y - 1;
@@ -625,9 +619,6 @@ void GameBoard::shiftPoints(char name, int rotation) {
 		else if (rotation == 1) {
 			p1.x = p1.x + 1;
 			p1.y = p1.y + 1;
-
-			//p2.x = p2.x + 1;
-			//p2.y = p2.y - 1;
 
 			p3.x = p3.x - 1;
 			p3.y = p3.y - 1;
@@ -640,9 +631,6 @@ void GameBoard::shiftPoints(char name, int rotation) {
 			p1.x = p1.x + 1;
 			p1.y = p1.y - 1;
 
-			//p2.x = p2.x - 1;
-			//p2.y = p2.y;
-
 			p3.x = p3.x - 1;
 			p3.y = p3.y + 1;
 
@@ -654,9 +642,6 @@ void GameBoard::shiftPoints(char name, int rotation) {
 			p1.x = p1.x - 1;
 			p1.y = p1.y - 1;
 
-			//p2.x = p2.x;
-			//p2.y = p2.y;
-
 			p3.x = p3.x + 1;
 			p3.y = p3.y + 1;
 
@@ -666,16 +651,13 @@ void GameBoard::shiftPoints(char name, int rotation) {
 		break;
 	}
 
-	case 'z': {
+	case 'z': {	//p3 anchor.
 		if (rotation == 0) {
 			p1.x = p1.x;
 			p1.y = p1.y + 2;
 
 			p2.x = p2.x + 1;
 			p2.y = p2.y + 1;
-
-			//p3.x = p3.x + 1;
-			//p3.y = p3.y - 1;
 
 			p4.x = p4.x + 1;
 			p4.y = p4.y - 1;
@@ -686,9 +668,6 @@ void GameBoard::shiftPoints(char name, int rotation) {
 
 			p2.x = p2.x + 1;
 			p2.y = p2.y - 1;
-
-			//p3.x = p3.x - 1;
-			//p3.y = p3.y - 1;
 
 			p4.x = p4.x - 1;
 			p4.y = p4.y - 1;
@@ -701,9 +680,6 @@ void GameBoard::shiftPoints(char name, int rotation) {
 			p2.x = p2.x - 1;
 			p2.y = p2.y - 1;
 
-			//p3.x = p3.x - 1;
-			//p3.y = p3.y + 1;
-
 			p4.x = p4.x - 1;
 			p4.y = p4.y + 1;
 		}
@@ -715,9 +691,6 @@ void GameBoard::shiftPoints(char name, int rotation) {
 			p2.x = p2.x - 1;
 			p2.y = p2.y + 1;
 
-			//p3.x = p3.x + 1;
-			//p3.y = p3.y + 1;
-
 			p4.x = p4.x + 1;
 			p4.y = p4.y + 1;
 		}
@@ -725,60 +698,81 @@ void GameBoard::shiftPoints(char name, int rotation) {
 	}
 
 	}
-	
+
+	//Checks if the rotation ends up out of bounds. If it is out of bounds, then undo the rotation.
+	if (rotationOutOfBounds()) {
+		p1 = hold1;
+		p2 = hold2;
+		p3 = hold3;
+		p4 = hold4;
+		return;
+	}
+
+	else{
+	field[hold1.x][hold1.y] = 0;
+	field[hold2.x][hold2.y] = 0;
+	field[hold3.x][hold3.y] = 0;
+	field[hold4.x][hold4.y] = 0;
 
 	field[p1.x][p1.y] = 1;
 	field[p2.x][p2.y] = 1;
 	field[p3.x][p3.y] = 1;
 	field[p4.x][p4.y] = 1;
+	factory.rotate();
+	}
 }
 
+bool GameBoard:: rotationOutOfBounds() {
+	if ((p1.y < 0 || p2.y < 0 || p3.y < 0 || p4.y < 0) || (p1.y >= width || p2.y >= width || p3.y >= width || p4.y >= width)){
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+/*The rotateBlock method checks if the indexes of the next rotation is occupied already. If all of the indexes required to make a rotation are empty, then it will call the shiftPoints method.
+*/
 void GameBoard::rotateBlock(char name, int rotation) {
-	if (p1.y - 1 < 0 || p2.y - 1 < 0 || p3.y - 1 < 0 || p4.y - 1 < 0) {
-		return;
-	}
-	if (p1.y + 1 > width || p2.y + 1 > width || p3.y + 1 > width || p4.y + 1 > width) { 
-		return;
-	}
 	switch (name) {
 		case 'i': {
 			if (rotation == 0) {
-				if (field[p1.x - 1][p1.y + 2] == 1 || field[p3.x + 1][p3.y] == 1 || field[p4.x + 2][p4.y - 1] == 1)
+				if (field[p1.x - 1][p1.y + 2] == 1 || field[p3.x + 1][p3.y] == 1 || field[p4.x + 2][p4.y - 1] == 1) {
 					return;
+				}
 				else {
-
 					shiftPoints(name, rotation);
-					factory.rotate();
 					return;
 				};
 			}
 
 			else if (rotation == 1) {
-				if (field[p1.x + 2][p1.y - 2] == 1 || field[p2.x + 1][p2.y - 1] == 1 || field[p4.x - 1][p4.y + 1] == 1)
+				if (field[p1.x + 2][p1.y - 2] == 1 || field[p2.x + 1][p2.y - 1] == 1 || field[p4.x - 1][p4.y + 1] == 1) {
 					return;
+				}
 				else {
-					shiftPoints(name, rotation);
-					factory.rotate();
+					shiftPoints(name, rotation);	
 					return;
 				}
 			}
 
 			else if (rotation == 2) {
-				if (field[p1.x - 2][p1.y + 1] == 1 || field[p2.x - 1][p2.y] == 1 || field[p4.x + 1][p4.y - 2] == 1)
+				if (field[p1.x - 2][p1.y + 1] == 1 || field[p2.x - 1][p2.y] == 1 || field[p4.x + 1][p4.y - 2] == 1) {
 					return;
+				}
 				else {
-					shiftPoints(name, rotation);
-					factory.rotate();
+					shiftPoints(name, rotation);	
+					return;
 				}
 			}
 
 			else if (rotation == 3) {
-				if (field[p1.x + 1][p1.y - 1] == 1 || field[p3.x - 1][p3.y + 1] == 1 || field[p4.x - 2][p4.y + 2] == 1)
+				if (field[p1.x + 1][p1.y - 1] == 1 || field[p3.x - 1][p3.y + 1] == 1 || field[p4.x - 2][p4.y + 2] == 1) {
 					return;
-
+				}
 				else {
-					shiftPoints(name, rotation);
-					factory.rotate();
+					shiftPoints(name, rotation);	
+					return;
 				}
 			}
 
@@ -787,41 +781,41 @@ void GameBoard::rotateBlock(char name, int rotation) {
 
 		case 'j': {
 			if (rotation == 0) {
-				if (field[p2.x - 1][p2.y] == 1 || field[p2.x + 1][p2.y] == 1 || field[p2.x + 1][p2.y + 1] == 1)
+				if (field[p2.x - 1][p2.y] == 1 || field[p2.x + 1][p2.y] == 1 || field[p2.x + 1][p2.y + 1] == 1) {
 					return;
+				}
 				else {
-					shiftPoints(name, rotation);
-					factory.rotate();
+					shiftPoints(name, rotation);					
 					return;
 				}
 			}
 
 			else if (rotation == 1) {
-				if (field[p2.x][p2.y - 1] == 1 || field[p2.x][p2.y + 1] == 1 || field[p2.x + 1][p2.y + 1] == 1)
+				if (field[p2.x][p2.y - 1] == 1 || field[p2.x][p2.y + 1] == 1 || field[p2.x + 1][p2.y + 1] == 1) {
 					return;
+				}
 				else {
-					shiftPoints(name, rotation);
-					factory.rotate();
+					shiftPoints(name, rotation);					
 					return;
 				}
 			}
 
 			else if (rotation == 2) {
-				if (field[p2.x - 1][p2.y] == 1 || field[p2.x + 1][p2.y] == 1 || field[p2.x + 1][p2.y - 1] == 1)
+				if (field[p2.x - 1][p2.y] == 1 || field[p2.x + 1][p2.y] == 1 || field[p2.x + 1][p2.y - 1] == 1) {
 					return;
+				}
 				else {
-					shiftPoints(name, rotation);
-					factory.rotate();
+					shiftPoints(name, rotation);					
 					return;
 				}
 			}
 
 			else if (rotation == 3) {
-				if (field[p2.x][p2.y - 1] == 1 || field[p2.x][p2.y + 1] == 1 || field[p2.x - 1][p2.y - 1] == 1)
+				if (field[p2.x][p2.y - 1] == 1 || field[p2.x][p2.y + 1] == 1 || field[p2.x - 1][p2.y - 1] == 1) {
 					return;
+				}
 				else {
-					shiftPoints(name, rotation);
-					factory.rotate();
+					shiftPoints(name, rotation);					
 					return;
 				}
 			}
@@ -832,41 +826,41 @@ void GameBoard::rotateBlock(char name, int rotation) {
 
 		case 'l': {
 			if (rotation == 0) {
-				if (field[p2.x - 1][p2.y] == 1 || field[p2.x + 1][p2.y] == 1 || field[p2.x + 1][p2.y + 1] == 1)
+				if (field[p2.x - 1][p2.y] == 1 || field[p2.x + 1][p2.y] == 1 || field[p2.x + 1][p2.y + 1] == 1) {
 					return;
+				}
 				else {
-					shiftPoints(name, rotation);
-					factory.rotate();
+					shiftPoints(name, rotation);					
 					return;
 				}
 			}
 
 			else if (rotation == 1) {
-				if (field[p2.x][p2.y - 1] == 1 || field[p2.x][p2.y + 1] == 1 || field[p2.x - 1][p2.y + 1] == 1)
+				if (field[p2.x][p2.y - 1] == 1 || field[p2.x][p2.y + 1] == 1 || field[p2.x - 1][p2.y + 1] == 1) {
 					return;
+				}
 				else {
-					shiftPoints(name, rotation);
-					factory.rotate();
+					shiftPoints(name, rotation);					
 					return;
 				}
 			}
 
 			else if (rotation == 2) {
-				if (field[p2.x - 1][p2.y] == 1 || field[p2.x + 1][p2.y] == 1 || field[p2.x - 1][p2.y - 1] == 1)
+				if (field[p2.x - 1][p2.y] == 1 || field[p2.x + 1][p2.y] == 1 || field[p2.x - 1][p2.y - 1] == 1) {
 					return;
+				}
 				else {
-					shiftPoints(name, rotation);
-					factory.rotate();
+					shiftPoints(name, rotation);					
 					return;
 				}
 			}
 
 			else if (rotation == 3) {
-				if (field[p2.x][p2.y - 1] == 1 || field[p2.x][p2.y - 1] == 1 || field[p2.x - 1][p2.y + 1] == 1)
+				if (field[p2.x][p2.y - 1] == 1 || field[p2.x][p2.y - 1] == 1 || field[p2.x - 1][p2.y + 1] == 1) {
 					return;
+				}
 				else {
-					shiftPoints(name, rotation);
-					factory.rotate();
+					shiftPoints(name, rotation);					
 					return;
 				}
 			}
@@ -880,41 +874,41 @@ void GameBoard::rotateBlock(char name, int rotation) {
 		}
 		case 's': {
 			if (rotation == 0) {
-				if (field[p3.x][p3.y + 1] == 1 || field[p3.x + 1][p3.y + 1] == 1)
+				if (field[p3.x][p3.y + 1] == 1 || field[p3.x + 1][p3.y + 1] == 1) {
 					return;
+				}
 				else {
-					shiftPoints(name, rotation);
-					factory.rotate();
+					shiftPoints(name, rotation);					
 					return;
 				}
 			}
 
 			if (rotation == 1) {
-				if (field[p3.x + 1][p3.y] == 1 || field[p3.x + 1][p3.y - 1] == 1)
+				if (field[p3.x + 1][p3.y] == 1 || field[p3.x + 1][p3.y - 1] == 1) {
 					return;
+				}
 				else {
-					shiftPoints(name, rotation);
-					factory.rotate();
+					shiftPoints(name, rotation);					
 					return;
 				}
 			}
 
 			if (rotation == 2) {
-				if (field[p3.x][p3.y - 1] == 1 || field[p3.x - 1][p3.y - 1] == 1)
+				if (field[p3.x][p3.y - 1] == 1 || field[p3.x - 1][p3.y - 1] == 1) {
 					return;
+				}
 				else {
-					shiftPoints(name, rotation);
-					factory.rotate();
+					shiftPoints(name, rotation);					
 					return;
 				}
 			}
 
 			if (rotation == 3) {
-				if (field[p3.x - 1][p3.y] == 1 || field[p3.x - 1][p3.y + 1] == 1)
+				if (field[p3.x - 1][p3.y] == 1 || field[p3.x - 1][p3.y + 1] == 1) {
 					return;
+				}
 				else {
-					shiftPoints(name, rotation);
-					factory.rotate();
+					shiftPoints(name, rotation);					
 					return;
 				}
 			}
@@ -922,41 +916,41 @@ void GameBoard::rotateBlock(char name, int rotation) {
 		}
 		case 't': {
 			if (rotation == 0) {
-				if (field[p2.x + 1][p2.y] == 1)
+				if (field[p2.x + 1][p2.y] == 1) {
 					return;
+				}
 				else {
-					shiftPoints(name, rotation);
-					factory.rotate();
+					shiftPoints(name, rotation);					
 					return;
 				}
 			}
 
 			if (rotation == 1) {
-				if (field[p2.x][p2.y - 1] == 1)
+				if (field[p2.x][p2.y - 1] == 1) {
 					return;
+				}
 				else {
-					shiftPoints(name, rotation);
-					factory.rotate();
+					shiftPoints(name, rotation);				
 					return;
 				}
 			}
 
 			if (rotation == 2) {
-				if (field[p2.x - 1][p2.y] == 1)
+				if (field[p2.x - 1][p2.y] == 1) {
 					return;
+				}
 				else {
-					shiftPoints(name, rotation);
-					factory.rotate();
+					shiftPoints(name, rotation);					
 					return;
 				}
 			}
 
 			if (rotation == 3) {
-				if (field[p2.x][p2.y + 1] == 1)
+				if (field[p2.x][p2.y + 1] == 1) {
 					return;
+				}
 				else {
-					shiftPoints(name, rotation);
-					factory.rotate();
+					shiftPoints(name, rotation);					
 					return;
 				}
 			}
@@ -964,47 +958,47 @@ void GameBoard::rotateBlock(char name, int rotation) {
 		}
 		case 'z': {
 			if (rotation == 0) {
-				if (field[p3.x - 1][p3.y + 1] == 1 || field[p3.x + 1][p3.y] == 1)
+				if (field[p3.x - 1][p3.y + 1] == 1 || field[p3.x + 1][p3.y] == 1) {
 					return;
+				}
 				else {
 					shiftPoints(name, rotation);
-					factory.rotate();
 					return;
 				}
 			}
 
 			if (rotation == 1) {
-				if (field[p3.x][p3.y - 1] == 1 || field[p3.x + 1][p3.y + 1] == 1)
+				if (field[p3.x][p3.y - 1] == 1 || field[p3.x + 1][p3.y + 1] == 1) {
 					return;
+				}
 				else {
-					shiftPoints(name, rotation);
-					factory.rotate();
+					shiftPoints(name, rotation);	
 					return;
 				}
 			}
 
 			if (rotation == 2) {
-				if (field[p3.x + 1][p3.y - 1] == 1 || field[p3.x - 1][p3.y] == 1)
+				if (field[p3.x + 1][p3.y - 1] == 1 || field[p3.x - 1][p3.y] == 1) {
 					return;
+				}
 				else {
 					shiftPoints(name, rotation);
-					factory.rotate();
 					return;
 				}
 			}
 
 			if (rotation == 3) {
-				if (field[p3.x - 1][p3.y - 1] == 1 || field[p3.x][p3.y + 1] == 1)
+				if (field[p3.x - 1][p3.y - 1] == 1 || field[p3.x][p3.y + 1] == 1) {
 					return;
+				}
 				else {
 					shiftPoints(name, rotation);
-					factory.rotate();
 					return;
 				}
 			}
 			break;
 		}
-			  //return;
+			  
 	}
 }
 bool GameBoard::getGameOver()
@@ -1013,7 +1007,9 @@ bool GameBoard::getGameOver()
 }
 
 
-
+/*The update method checks and updates the state of the playing field. It first checks if the current block has reached the end of the field or if there is a collision.
+If either of those are true, it then checks if the game is over. If the game is not over, it checks if there are any lines to clear. If there are no lines to clear then it simply
+sets the block in place and receives a new block.*/
 void GameBoard::update() {
 	
 	if (p1.x == height - 1 || p2.x == height - 1 || p3.x == height - 1 || p4.x == height - 1 || collisionCheck(factory.name, factory.currentRotation)) {
@@ -1022,17 +1018,31 @@ void GameBoard::update() {
 			return;
 		}
 		int lowest = findLowestPoint();
-		int cleared = clearLine(lowest);
-		if (cleared > 0) {
-			shiftBlocks(lowest, cleared);
+		int highest = findHighestPoint();
+		int cleared = 0;
+		
+		while (lowest >= highest) {
+			if (lineFull(lowest)) {
+				cleared = clearLine(lowest);
+				shiftBlocks(lowest, cleared);
+				score += 10 ^ cleared;
+				return;
+			}
+			lowest--;
 		}
-		else {
-			factory.spawnPiece();
-			receivePiece(factory.name);
-		}
+			score += (lowest + 1);
+			factory.spawnBlock();
+			receiveBlock(factory.name);
+				
+	}
+	
+}
+
+/*This method forces the blocks to move one unit down.*/
+void::GameBoard::forceDown() {
+	if (p1.x + 1 >= height || (p2.x + 1 >= height) || (p3.x + 1 >= height) || (p4.x + 1 >= height)) {
 		return;
 	}
-	else {
 		field[p1.x][p1.y] = 0;
 		field[p2.x][p2.y] = 0;
 		field[p3.x][p3.y] = 0;
@@ -1045,9 +1055,7 @@ void GameBoard::update() {
 		field[p2.x][p2.y] = 1;
 		field[p3.x][p3.y] = 1;
 		field[p4.x][p4.y] = 1;
-	}
 }
-
 bool GameBoard::bgameOver() {
 	if (p1.x <= 1 || p2.x <= 1 || p3.x <= 1 || p4.x <= 1) {
 		return true;
@@ -1065,7 +1073,6 @@ void GameBoard::checkKeyState() {
 	}
 	
 	if (GetAsyncKeyState(VK_RIGHT)) {
-		//cout << "right\n";
 		if (movementPossible(VK_RIGHT, factory.name, factory.currentRotation)) {
 			moveR();
 		}
@@ -1078,7 +1085,7 @@ void GameBoard::checkKeyState() {
 			}
 		}
 	}
-		if (GetAsyncKeyState(VK_SPACE)) {
+		if (GetAsyncKeyState(0x5A)) {
 			if (bRotateHold) {
 				rotateBlock(factory.name, factory.currentRotation);
 				bRotateHold = false;
@@ -1211,6 +1218,7 @@ void GameBoard::move(int direction) {
 	}
 }
 
+/*Method that checks if movement is possible for each block and rotation.*/
 bool GameBoard::movementPossible(int direction, char name, int rotation) {
 	switch (direction) {
 		case VK_LEFT: {// left
@@ -1461,6 +1469,20 @@ int GameBoard::findLowestPoint() {
 	return lowest;
 }
 
+int GameBoard::findHighestPoint() {
+	int highest = p1.x;
+	if (p2.x < highest) {
+		highest = p2.x;
+	}
+	if (p3.x < highest) {
+		highest = p3.x;
+	}
+	if (p4.x < highest) {
+		highest = p4.x;
+	}
+	return highest;
+}
+
 void GameBoard::shiftBlocks(int currentRow, int cleared) {
 	for (int i = currentRow - cleared; i > 0; i--) {
 		for (int j = 0; j < width; j++) {
@@ -1470,5 +1492,6 @@ void GameBoard::shiftBlocks(int currentRow, int cleared) {
 			}
 		}
 	}
+	showField();
 	this_thread::sleep_for(500ms);
 }
